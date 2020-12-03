@@ -6,11 +6,13 @@ const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 
 
-router.post('/', auth, multer, sauceCtrl.createSauce); // On rajoute les middlewares auth et multer sur les routes qu'on veut protéger //
+router.post('/', auth, multer, sauceCtrl.createSauce); 
 router.delete('/:id', auth, sauceCtrl.deleteSauce);
 router.get('/:id', auth, sauceCtrl.findOneSauce);
 router.get('/', auth, sauceCtrl.findAllSauces);
 router.put('/:id', auth, multer, sauceCtrl.modifySauce);
+router.post('/:id/like', auth, sauceCtrl.likeOrDislike); 
+
 
 
 
