@@ -1,4 +1,4 @@
-const http = require("http"); 
+const http = require("http"); // on utilisera la variante HTTPS lors de la phase de production afin de chiffrer les transmissions
 const app = require("./app"); 
 
 

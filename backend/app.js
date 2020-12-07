@@ -5,6 +5,7 @@ const saucesRoutes = require("./routes/sauces");
 const userRoutes = require("./routes/user"); 
 const path = require('path');
 
+// connexion à la base de donnée Mongo DB
 mongoose.connect('mongodb+srv://Adrien:Admin@sauces.0opu2.mongodb.net/<dbname>?retryWrites=true&w=majority',
     { useNewUrlParser: true,
       useUnifiedTopology: true })
@@ -13,6 +14,7 @@ mongoose.connect('mongodb+srv://Adrien:Admin@sauces.0opu2.mongodb.net/<dbname>?r
 
 const app = express();
 
+// définition des headers
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*'); 
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');

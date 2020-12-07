@@ -2,6 +2,7 @@
 const Sauce = require('../models/Sauces'); 
 const fs = require('fs'); 
 
+// fonction de l'ajout d'une sauce à la base de données
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce); 
     delete sauceObject._id;
@@ -14,6 +15,7 @@ exports.createSauce = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
+// fonction de modification d'une sauce dans la base de données
 exports.modifySauce = (req, res, next) => { 
     const sauceObject = req.file ? 
         {
@@ -25,7 +27,7 @@ exports.modifySauce = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 }; 
 
-
+// fonction de suppression d'une sauce de la base de données
 exports.deleteSauce = (req, res, next) => { 
     Sauce.findOne({ _id: req.params.id }) 
         .then((sauce) => {
@@ -39,24 +41,27 @@ exports.deleteSauce = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
+// fonction pour trouver une sauce présente dans la base de données
 exports.findOneSauce = (req, res, next) => { 
     Sauce.findOne({ _id: req.params.id })
         .then((sauce) => res.status(200).json(sauce))
         .catch(error => res.status(404).json({ error }));
 };
 
+// fonction pour afficher toutes les sauces présentes dans la base de données
 exports.findAllSauces = (req, res, next) => { 
     Sauce.find()
         .then((sauces) => res.status(200).json(sauces))
         .catch(error => res.status(400).json({ error }));
 };
 
-exports.likeOrDislike = (req, res, next) => { //like et dislike des sauces
+// fonction pour "likes or dislike" une sauce dans la base de données
+exports.likeOrDislike = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
    .then(sauce => {
        switch (req.body.like) {
            case -1: //utilisateur n'aime pas la sauce
-               Sauce.updateOne({ _id: req.params.id }, {
+               Sauce.updateOne({_id: req.params.id }, {
                    $inc: {dislikes:1},
                    $push: {usersDisliked: req.body.userId},
                    _id: req.params.id
@@ -88,9 +93,9 @@ exports.likeOrDislike = (req, res, next) => { //like et dislike des sauces
                break;
            
            case 1:
-               Sauce.updateOne({ _id: req.params.id }, { //utilisateure aime la sauce
-                   $inc: { likes:1},
-                   $push: { usersLiked: req.body.userId},
+               Sauce.updateOne({ _id: req.params.id }, { //utilisateur aime la sauce
+                   $inc: {likes:1},
+                   $push: {usersLiked: req.body.userId},
                    _id: req.params.id
                })
                    .then(() => res.status(201).json({ message: "utilisateur aime la sauce !"}))
